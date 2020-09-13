@@ -1,0 +1,141 @@
+plugins {
+    id 'application'
+    id 'groovy'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '1.4.10'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version "1.0.10.RELEASE"
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+
+    maven {
+        url 'https://repo.jenkins-ci.org/releases'
+    }
+}
+
+kotlin {
+    sourceSets {
+        main.kotlin.srcDirs += 'src/main/kotlin/ru/megafon/lobachevsky/app'
+    }
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy/ru/megafon/lobachevsky/jenkins']
+        }
+    }
+}
+
+project.archivesBaseName = 'lobachevsky-app'
+project.version = 'v1.0.0'
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'org.jetbrains.kotlin:kotlin-test:1.4.10'
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.4.10'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.jenkins-ci.main:jenkins-core:2.255'
+}
+
+application {
+    mainClassName = "ru.megafon.lobachevsky.app.AppKt"
+}
+
+task image(type: DefaultTask, group: 'lobachevsky', description: 'Build a docker image with our application.') {
+    doLast {
+        exec {
+            commandLine 'docker',
+                    'build',
+                    '-t',
+                    "${project.archivesBaseName}:${project.version}",
+                    '.'
+        }
+    }
+}
+
+task deploy(type: DefaultTask, group: 'lobachevsky', description:
+        'Deploy the finished application using the artifact image assembled in a step.') {
+    doLast {
+        exec {
+            commandLine 'kubectl',
+                    'apply',
+                    '-f',
+                    'kubernetes/namespace.yaml'
+            commandLine 'kubectl',
+                    'apply',
+                    '-R',
+                    '-f',
+                    'kubernetes/'
+            commandLine 'kubectl',
+                    'get',
+                    'pods',
+                    '-wide'
+        }
+    }
+}
+
+task curl(type: DefaultTask, group: 'lobachevsky', description: 'Test deployed in kubernetes app.') {
+    doLast {
+        20.times {
+            exec {
+                commandLine 'curl',
+                        'localhost:8090/hello'
+            }
+        }
+    }
+}
+
+task jenkins_run (type: DefaultTask){
+    doLast {
+        exec {
+            commandLine 'docker',
+                    'run',
+                    '-d',
+                    '-p',
+                    '8095:8080',
+                    '--name',
+                    'lobachevsky-jenkins',
+                    'jenkins/jenkins:latest'
+        }
+    }
+}
+
+task jenkins(type: DefaultTask, group: 'lobachevsky', description: 'Run Jenkins image.') {
+    dependsOn(jenkins_run)
+    doLast {
+        exec {
+            sleep(20 * 1000)
+            commandLine 'docker',
+                    'logs',
+                    'lobachevsky-jenkins'
+        }
+    }
+}
+
+task jenkins_stop (type: DefaultTask){
+    doLast {
+        exec {
+            commandLine 'docker',
+                    'stop',
+                    'lobachevsky-jenkins'
+        }
+    }
+}
+
+task jenkins_clean(type: DefaultTask, group: 'lobachevsky', description: 'Stop and remove Jenkins container.') {
+    dependsOn jenkins_stop
+    doLast {
+        exec {
+            sleep(20*1000)
+            commandLine 'docker',
+                    'rm',
+                    'lobachevsky-jenkins'
+        }
+    }
+}

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lobachevsky-app
+  namespace: lobachevsky
+spec:
+  selector:
+    matchLabels:
+      app: lobachevsky-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lobachevsky-app
+    spec:
+      containers:
+        - name: lobachevsky-app
+          image: lobachevsky-app:v1.0.0
+          ports:
+            - containerPort: 8080
