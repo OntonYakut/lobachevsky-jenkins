@@ -51,6 +51,16 @@ test {
     useJUnitPlatform()
 }
 
+task run_app (type: DefaultTask, group: 'lobachevsky', description: 'Run application') {
+    doLast {
+        exec {
+            commandLine 'java',
+                    '-jar',
+                    "./build/libs/${project.archivesBaseName}-${project.version}.jar"
+        }
+    }
+}
+
 task image(type: DefaultTask, group: 'lobachevsky', description: 'Build a docker image with our application.') {
     doLast {
         exec {

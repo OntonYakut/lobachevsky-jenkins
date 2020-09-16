@@ -13,7 +13,7 @@ class PipelineCi implements Serializable {
     }
 
     void run() {
-        script.stage('test') {
+        script.stage('unit') {
             script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdout: true)
         }
 
@@ -21,18 +21,25 @@ class PipelineCi implements Serializable {
             script.sh(script: 'gradle build --no-build-cache --refresh-dependencies  --info', returnStdout: true)
         }
 
-        script.stage('image') {
-            script.sh(script: 'gradle image --no-build-cache --refresh-dependencies  --info', returnStdout: true)
+        Map parallelStages = [:]
+        parallelStages['run'] = {
+            script.stage('run') {
+                script.sh(script: 'gradle run_app --no-build-cache --refresh-dependencies  --info', returnStdout: true)
+            }
         }
 
-        script.stage('deploy') {
-            script.docker('lobachevsky-app:v').inside() {
-                script.sh 'java -jar lobachevsky-app-v1.0.0.jar'
-                for (i in 0..10) {
-                    script.sh 'curl localhost:8080/hello'
+        parallelStages['test'] = {
+            script.stage('test') {
+                script.docker('lobachevsky-app:v').inside() {
+                    script.sh 'java -jar lobachevsky-app-v1.0.0.jar'
+                    for (i in 0..30) {
+                        script.sh 'curl localhost:8080/hello'
+                    }
                 }
             }
         }
+
+        script.parallel parallelStages
     }
 
 }

@@ -109,8 +109,6 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 
 ![Token page](images/run_pipeline.png "Insert token to this window")
 
-Если Jenkins будет ругаться на запускаемые нами скрипты, то нужно зайти в 
-
 ---
 #### Build and deploy
 
