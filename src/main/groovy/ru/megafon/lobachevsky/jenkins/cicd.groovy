@@ -1,4 +1,4 @@
-Closure execute = { Script script ->
+def execute = { Script script ->
     new PipelineCi(script).run()
 }
 

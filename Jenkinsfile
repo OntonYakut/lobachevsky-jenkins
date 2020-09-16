@@ -9,7 +9,7 @@ pipeline {
                     Script myPipelineExecution = load("${workspace}/src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy")
                     echo "${myPipelineExecution.getClass()}"
 
-                    myPipelineExecution
+                    myPipelineExecution.execute()
                 }
             }
         }
