@@ -47,6 +47,21 @@ application {
     mainClassName = "ru.megafon.lobachevsky.app.AppKt"
 }
 
+test {
+    useJUnitPlatform()
+}
+
+task run_app (type: DefaultTask, group: 'lobachevsky', description: 'Run application') {
+    doLast {
+        exec {
+            commandLine 'java',
+                    '-jar',
+                    "./build/libs/${project.archivesBaseName}-${project.version}.jar",
+                    '--server.port=8099'
+        }
+    }
+}
+
 task image(type: DefaultTask, group: 'lobachevsky', description: 'Build a docker image with our application.') {
     doLast {
         exec {
@@ -91,7 +106,22 @@ task curl(type: DefaultTask, group: 'lobachevsky', description: 'Test deployed i
     }
 }
 
+task jenkins_build (type: DefaultTask){
+    doLast {
+        exec {
+            commandLine 'docker',
+                    'build',
+                    '-t',
+                    'jenkins/lobachevsky-jenkins:latest',
+                    '-f',
+                    'jenkins/Dockerfile',
+                    '.'
+        }
+    }
+}
+
 task jenkins_run (type: DefaultTask){
+    dependsOn(jenkins_build)
     doLast {
         exec {
             commandLine 'docker',
@@ -101,7 +131,7 @@ task jenkins_run (type: DefaultTask){
                     '8095:8080',
                     '--name',
                     'lobachevsky-jenkins',
-                    'jenkins/jenkins:latest'
+                    'jenkins/lobachevsky-jenkins:latest'
         }
     }
 }
@@ -129,7 +159,7 @@ task jenkins_stop (type: DefaultTask){
 }
 
 task jenkins_clean(type: DefaultTask, group: 'lobachevsky', description: 'Stop and remove Jenkins container.') {
-    dependsOn jenkins_stop
+    dependsOn(jenkins_stop)
     doLast {
         exec {
             sleep(20*1000)

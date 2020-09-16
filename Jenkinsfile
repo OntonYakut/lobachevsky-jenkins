@@ -1,3 +1,16 @@
-script {
-    def myPipelineExecution = evaluate readTrusted('src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy')
+pipeline {
+    agent { node { label 'master '} }
+    stages {
+        stage ('init'){
+            steps {
+                script {
+                    String scriptFile = "${sh(script: 'echo -n $(pwd)', returnStdout: true)}" +
+                            "/src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy"
+                    def myPipelineExecution = load(scriptFile)
+                    echo "${myPipelineExecution.getClass()}"
+                    myPipelineExecution.runPipeline(this)
+                }
+            }
+        }
+    }
 }

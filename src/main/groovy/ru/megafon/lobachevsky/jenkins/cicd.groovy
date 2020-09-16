@@ -1,7 +1,5 @@
-import hudson.model.Node
-
-Closure call = {
-    new PipelineCi(this as Script).run()
+def runPipeline (Script script){
+    new PipelineCi(script).run()
 }
 
 class PipelineCi implements Serializable {
@@ -15,30 +13,33 @@ class PipelineCi implements Serializable {
     }
 
     void run() {
-        Node node = script.node
+        script.stage('unit') {
+            script.sh(script: 'gradle test --info', returnStdout: true)
+        }
 
-        node() {
+        script.stage('build') {
+            script.sh(script: 'gradle build --info', returnStdout: true)
+        }
+
+        Map parallelStages = [:]
+        parallelStages['run'] = {
+            script.stage('run') {
+                script.sh(script: 'gradle run_app --info', returnStdout: true)
+            }
+        }
+
+        parallelStages['test'] = {
             script.stage('test') {
-                script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
-            }
-
-            script.stage('build') {
-                script.sh(script: 'gradle build --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
-            }
-
-            script.stage('image') {
-                script.sh(script: 'gradle image --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
-            }
-
-            script.stage('deploy') {
-                script.docker('lobachevsky-app:v').inside() {
-                    script.sh 'java -jar lobachevsky-app-v1.0.0.jar'
-                    for (i in 0..10) {
-                        script.sh 'curl localhost:8080/hello'
-                    }
+                script.sleep(time: 10, unit: 'SECONDS')
+                for (i in 0..3) {
+                    script.sh 'echo ok'
                 }
             }
         }
+
+        script.parallel parallelStages
     }
 
 }
+
+return this.&runPipeline

@@ -10,6 +10,7 @@
   * [Build and deploy](#sub-heading)
 - [Контакты](#Heading)
 
+---
 <!-- toc -->
 ## Необходимые инструменты
 [Устанавливаем Git в соответствии с гайдом](https://git-scm.com/book/ru/v2/Введение-Установка-Git)  
@@ -19,14 +20,15 @@
 [Как установить Kubernetes в Docker](https://birthday.play-with-docker.com/kubernetes-docker-desktop/)  
 [Gradle. Локальная установка (не обязательно)](https://gradle.org/install/)
 
+---
 ## Порядок работы
-
 #### Git clone
 Клонируем себе репозиторий с помощью git.
 ```shell script
 git clone https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 ```
 
+---
 #### Gradle
 Заходим в директорию склонированного нами репозитория, и проверяем что все работает. Здесь мы смотри какие tasks на доступны.
 ```shell script
@@ -42,6 +44,7 @@ Gradle должен вывести вот такой текст.
 
 Где будет группа задач lobachevsky-tasks, с описанием что делает каждая из них.  
 
+---
 #### Jenkins
 Теперь запускаем наш Jenkins.
 ```shell script
@@ -73,6 +76,7 @@ gradle jenkins
 
 Страницу с именем хоста пропускаем.
 
+---
 #### Pipeline
 
 Как только мы настроили Jenkins, нам надо создать pipeline.  
@@ -105,5 +109,12 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 
 ![Token page](images/run_pipeline.png "Insert token to this window")
 
+---
 #### Build and deploy
+
+Как только будет нажата кнопка 'Собрать сейчас', Jenkins склонирует себе репозиторий, и запустит скрипт указанный в Jenkinsfile.
+В котором есть только один stage, это init. В ходе этого стейджа Jenkins прочитает файл из директории src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy
+Уже в котором будут вызывать все остальные стадии сборки нашего приложения.
+
+![Token page](images/run_app.png "Insert token to this window")
 
