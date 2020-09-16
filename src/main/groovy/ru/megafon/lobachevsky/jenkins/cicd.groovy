@@ -1,4 +1,4 @@
-def execution (Script script){
+def runPipeline (Script script){
     new PipelineCi(script).run()
 }
 
@@ -39,4 +39,4 @@ class PipelineCi implements Serializable {
 
 }
 
-return this.&execution
+return this.&runPipeline
