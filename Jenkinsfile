@@ -4,9 +4,9 @@ pipeline {
         stage ('init'){
             steps {
                 script {
-                    String workspace = sh(script: 'echo -n $(pwd)', returnStdout: true)
-                    echo workspace
-                    Script myPipelineExecution = load("${workspace}/src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy")
+                    String scriptFile = "${sh(script: 'echo -n $(pwd)', returnStdout: true)}" +
+                            "/src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy"
+                    def myPipelineExecution = load(scriptFile)
                     echo "${myPipelineExecution.getClass()}"
 
                     myPipelineExecution.execute()

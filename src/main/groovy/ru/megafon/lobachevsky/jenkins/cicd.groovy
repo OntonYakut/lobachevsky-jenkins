@@ -1,9 +1,5 @@
-def execute = { Script script ->
+def execution (Script script){
     new PipelineCi(script).run()
-}
-
-def something (){
-    println 'hello world'
 }
 
 class PipelineCi implements Serializable {
@@ -42,3 +38,7 @@ class PipelineCi implements Serializable {
     }
 
 }
+
+return [
+        execution: this.&execution
+]
