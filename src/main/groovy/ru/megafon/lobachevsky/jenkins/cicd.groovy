@@ -39,6 +39,4 @@ class PipelineCi implements Serializable {
 
 }
 
-return [
-        execution: this.&execution
-]
+return this.&execution
