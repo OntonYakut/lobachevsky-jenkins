@@ -2,6 +2,10 @@ def execute = { Script script ->
     new PipelineCi(script).run()
 }
 
+def something (){
+    println 'hello world'
+}
+
 class PipelineCi implements Serializable {
 
     static long serialVersionUid = 1L
