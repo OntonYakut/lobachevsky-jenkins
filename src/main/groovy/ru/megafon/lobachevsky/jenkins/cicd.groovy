@@ -14,17 +14,17 @@ class PipelineCi implements Serializable {
 
     void run() {
         script.stage('unit') {
-            script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdout: true)
+            script.sh(script: 'gradle test --info', returnStdout: true)
         }
 
         script.stage('build') {
-            script.sh(script: 'gradle build --no-build-cache --refresh-dependencies  --info', returnStdout: true)
+            script.sh(script: 'gradle build --info', returnStdout: true)
         }
 
         Map parallelStages = [:]
         parallelStages['run'] = {
             script.stage('run') {
-                script.sh(script: 'gradle run_app --no-build-cache --refresh-dependencies  --info', returnStdout: true)
+                script.sh(script: 'gradle run_app --info', returnStdout: true)
             }
         }
 
