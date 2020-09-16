@@ -1,5 +1,3 @@
-import hudson.model.Node
-
 Closure call = {
     new PipelineCi(this as Script).run()
 }
@@ -15,8 +13,6 @@ class PipelineCi implements Serializable {
     }
 
     void run() {
-        Node node = script.node
-
         node() {
             script.stage('test') {
                 script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
