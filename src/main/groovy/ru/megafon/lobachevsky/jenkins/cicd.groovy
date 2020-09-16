@@ -1,5 +1,5 @@
-Closure call = {
-    new PipelineCi(this as Script).run()
+Closure execute = { Script script ->
+    new PipelineCi(script).run()
 }
 
 class PipelineCi implements Serializable {
