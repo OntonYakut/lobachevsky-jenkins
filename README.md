@@ -114,4 +114,7 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 
 Как только будет нажата кнопка 'Собрать сейчас', Jenkins склонирует себе репозиторий, и запустит скрипт указанный в Jenkinsfile.
 В котором есть только один stage, это init. В ходе этого стейджа Jenkins прочитает файл из директории src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy
-Уже в котором будут 
+Уже в котором будут вызывать все остальные стадии сборки нашего приложения.
+
+![Token page](images/run_app.png "Insert token to this window")
+
