@@ -15,15 +15,15 @@ class PipelineCi implements Serializable {
     void run() {
         script.node() {
             script.stage('test') {
-                script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
+                script.sh(script: 'gradle test --no-build-cache --refresh-dependencies  --info', returnStdout: true)
             }
 
             script.stage('build') {
-                script.sh(script: 'gradle build --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
+                script.sh(script: 'gradle build --no-build-cache --refresh-dependencies  --info', returnStdout: true)
             }
 
             script.stage('image') {
-                script.sh(script: 'gradle image --no-build-cache --refresh-dependencies  --info', returnStdOut: true)
+                script.sh(script: 'gradle image --no-build-cache --refresh-dependencies  --info', returnStdout: true)
             }
 
             script.stage('deploy') {
