@@ -33,7 +33,7 @@ class PipelineCi implements Serializable {
                 script.docker('lobachevsky-app:v').inside() {
                     script.sh 'java -jar lobachevsky-app-v1.0.0.jar'
                     for (i in 0..30) {
-                        script.sh 'curl localhost:8080/hello'
+                        script.sh 'curl localhost:8099/hello'
                     }
                 }
             }

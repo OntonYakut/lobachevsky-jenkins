@@ -112,3 +112,4 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 ---
 #### Build and deploy
 
+Как только будет нажата кнопка 'Собрать сейчас', Jenkins склонирует себе наш репозиторий, 

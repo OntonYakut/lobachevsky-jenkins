@@ -56,7 +56,8 @@ task run_app (type: DefaultTask, group: 'lobachevsky', description: 'Run applica
         exec {
             commandLine 'java',
                     '-jar',
-                    "./build/libs/${project.archivesBaseName}-${project.version}.jar"
+                    "./build/libs/${project.archivesBaseName}-${project.version}.jar",
+                    '--server.port=8099'
         }
     }
 }
