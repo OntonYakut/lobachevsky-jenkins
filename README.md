@@ -68,11 +68,11 @@ gradle jenkins
 
 Выбираем Install suggested plugins.
 
-![Token page](images/suggested_plugins.png "Insert token to this window")
+![Install plugins](images/suggested_plugins.png "Now we should install suggested plugins")
 
 Как только установка звершится, нам нужно будет создать учетную запись администратора.
 
-![Token page](images/create_admin.png "Insert token to this window")
+![Create administrator user](images/create_admin.png "Create admin")
 
 Страницу с именем хоста пропускаем.
 
@@ -118,3 +118,7 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 
 ![Token page](images/run_app.png "Insert token to this window")
 
+## Контакты
+
+Наш великолепный HR [Дарья Жданова](mailto:daria.zhdanova@megafon.ru)
+Создатель этого демо [Дмитрий Травян](dmitry.travyan@megafon.ru)
