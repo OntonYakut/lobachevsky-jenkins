@@ -47,6 +47,10 @@ application {
     mainClassName = "ru.megafon.lobachevsky.app.AppKt"
 }
 
+test {
+    useJUnitPlatform()
+}
+
 task image(type: DefaultTask, group: 'lobachevsky', description: 'Build a docker image with our application.') {
     doLast {
         exec {
