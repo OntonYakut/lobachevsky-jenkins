@@ -1,8 +1,16 @@
 # lobachevsky-jenkins
 
 ## Содержание
-<!-- toc -->
+- [Необходимые инструменты](#Heading)
+- [Порядок работы](#Heading)
+  * [Git clone](#sub-heading)
+  * [Gradle](#sub-heading)
+  * [Jenkins](#sub-heading)
+  * [Pipeline](#sub-heading)
+  * [Build and deploy](#sub-heading)
+- [Контакты](#Heading)
 
+<!-- toc -->
 ## Необходимые инструменты
 [Устанавливаем Git в соответствии с гайдом](https://git-scm.com/book/ru/v2/Введение-Установка-Git)  
 [Docker для Windows](https://docs.docker.com/docker-for-windows/install/)  
