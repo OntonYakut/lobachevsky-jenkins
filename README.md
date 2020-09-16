@@ -112,4 +112,6 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 ---
 #### Build and deploy
 
-Как только будет нажата кнопка 'Собрать сейчас', Jenkins склонирует себе наш репозиторий, 
+Как только будет нажата кнопка 'Собрать сейчас', Jenkins склонирует себе репозиторий, и запустит скрипт указанный в Jenkinsfile.
+В котором есть только один stage, это init. В ходе этого стейджа Jenkins прочитает файл из директории src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy
+Уже в котором будут 

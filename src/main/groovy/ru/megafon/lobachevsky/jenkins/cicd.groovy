@@ -31,9 +31,9 @@ class PipelineCi implements Serializable {
         parallelStages['test'] = {
             script.stage('test') {
                 script.docker('lobachevsky-app:v').inside() {
-                    script.sh 'java -jar lobachevsky-app-v1.0.0.jar'
-                    for (i in 0..30) {
-                        script.sh 'curl localhost:8099/hello'
+                    script.sleep(time: 10, unit: 'SECONDS')
+                    for (i in 0..3) {
+                        script.sh 'curl localhost:8099/hello > curl.log | tee curl.log'
                     }
                 }
             }
