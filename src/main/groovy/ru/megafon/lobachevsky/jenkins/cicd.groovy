@@ -32,7 +32,7 @@ class PipelineCi implements Serializable {
             script.stage('test') {
                 script.sleep(time: 10, unit: 'SECONDS')
                 for (i in 0..3) {
-                    script.sh 'curl localhost:8099/hello'
+                    script.sh 'echo ok'
                 }
             }
         }
