@@ -7,7 +7,7 @@ pipeline {
                     String scriptFile = "${sh(script: 'echo -n $(pwd)', returnStdout: true)}" +
                             "/src/main/groovy/ru/megafon/lobachevsky/jenkins/cicd.groovy"
                     def myPipelineExecution = load(scriptFile)
-                    echo myPipelineExecution.getClass()
+                    echo "${myPipelineExecution.getClass()}"
                     myPipelineExecution.runPipeline(this)
                 }
             }
