@@ -25,7 +25,7 @@
 #### Git clone
 Клонируем себе репозиторий с помощью git.
 ```shell script
-git clone https://github.com/DmitryTravyan/lobachevsky-jenkins.git
+git clone https://github.com/OntonYakut/lobachevsky-jenkins.git
 ```
 
 ---
@@ -118,7 +118,3 @@ https://github.com/DmitryTravyan/lobachevsky-jenkins.git
 
 ![Token page](images/run_app.png "Insert token to this window")
 
-## Контакты
-
-Наш великолепный HR [Дарья Жданова](mailto:daria.zhdanova@megafon.ru)
-Создатель этого демо [Дмитрий Травян](dmitry.travyan@megafon.ru)
